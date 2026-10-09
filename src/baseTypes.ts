@@ -281,6 +281,11 @@ export interface Entity {
   size?: number; // might be unknown or to be filled
   sizeEnc?: number;
   sizeRaw: number;
+  /**
+   * Provider content hash (Dropbox content_hash, Box SHA-1, Google Drive MD5,
+   * and similar), or a hash this plugin computed so equal bytes can still
+   * compare equal after an mtime rewrite. Cleared for encrypted remotes.
+   */
   hash?: string;
   etag?: string;
   synthesizedFolder?: boolean;

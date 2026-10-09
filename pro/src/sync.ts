@@ -12,6 +12,14 @@ import type {
   SyncDirectionType,
   SyncTriggerSourceType,
 } from "../../src/baseTypes";
+import {
+  type ContentHashReaders,
+  contentHashEqualPrevSyncRecord,
+  contentHashesEqual,
+  encryptionBlocksContentHash,
+  fillMissingContentHashesInplace,
+  mtimeAndSizeEncEqual,
+} from "../../src/contentHash";
 import { copyFile, copyFileOrFolder, copyFolder } from "../../src/copyLogic";
 import type { FakeFs } from "../../src/fsAll";
 import type { FakeFsEncrypt } from "../../src/fsEncrypt";
@@ -538,7 +546,7 @@ const ensembleMixedEnties = async (
  * Basically follow the sync algorithm of https://github.com/Jwink3101/syncrclone
  * Also deal with syncDirection which makes it more complicated
  */
-const getSyncPlanInplace = async (
+export const getSyncPlanInplace = async (
   mixedEntityMappings: Record<string, MixedEntity>,
   skipSizeLargerThan: number,
   conflictAction: ConflictActionType,
@@ -546,10 +554,20 @@ const getSyncPlanInplace = async (
   profiler: Profiler | undefined,
   settings: RemotelySavePluginSettings,
   triggerSource: SyncTriggerSourceType,
-  configDir: string
+  configDir: string,
+  contentHashIO?: ContentHashReaders
 ) => {
   profiler?.addIndent();
   profiler?.insert("getSyncPlanInplace: enter");
+  // Hash recheck before decisions. Encryption skips this and does not
+  // invent hashes. Readers are optional so tests can pass hashes in directly.
+  await fillMissingContentHashesInplace(mixedEntityMappings, {
+    password: settings.password,
+    serviceType: settings.serviceType,
+    readLocal: contentHashIO?.readLocal,
+    readRemote: contentHashIO?.readRemote,
+  });
+  profiler?.insert("getSyncPlanInplace: content hash recheck");
   // from long(deep) to short(shadow), descending
   const sortedKeys = Object.keys(mixedEntityMappings).sort(
     (k1, k2) => k2.length - k1.length
@@ -774,13 +792,16 @@ const getSyncPlanInplace = async (
         mixedEntry.decision = "only_history";
         mixedEntry.change = false;
       } else if (local !== undefined && remote !== undefined) {
-        if (
-          (local.mtimeCli === remote.mtimeCli ||
-            local.mtimeCli === remote.mtimeSvr) &&
-          local.sizeEnc === remote.sizeEnc
-        ) {
+        const mtimeSizeEqual = mtimeAndSizeEncEqual(local, remote);
+        // Branch 40: mtime+size failed, but both content hashes are present
+        // and equal. Bulk vault pulls rewrite mtime without changing bytes.
+        // Encryption never takes this branch (hashes are not comparable).
+        const hashEqual =
+          !encryptionBlocksContentHash(settings.password) &&
+          contentHashesEqual(local.hash, remote.hash);
+        if (mtimeSizeEqual || hashEqual) {
           // completely equal / identical
-          mixedEntry.decisionBranch = 2;
+          mixedEntry.decisionBranch = mtimeSizeEqual ? 2 : 40;
           mixedEntry.decision = "equal";
           mixedEntry.change = false;
           keptFolder.add(getParentFolder(key));
@@ -1234,7 +1255,7 @@ const getSyncPlanInplace = async (
   return mixedEntityMappings;
 };
 
-const splitFourStepsOnEntityMappings = (
+export const splitFourStepsOnEntityMappings = (
   mixedEntityMappings: Record<string, MixedEntity>
 ) => {
   type StepArrayType = MixedEntity[] | undefined | null;
@@ -1447,7 +1468,52 @@ const dispatchOperationToActualV3 = async (
     // !! we MIGHT need to upsert the record,
     // so that next time we can determine the change delta
 
-    if (r.prevSync !== undefined) {
+    // Branch 40 remembered a content hash despite a new mtime. Refresh the
+    // prev-sync record so the next run can reuse that hash (and the new
+    // mtime) instead of reading the file again. decision stays "equal",
+    // so this is not a modify for protectModifyPercentage.
+    if (
+      r.decisionBranch === 40 &&
+      r.local !== undefined &&
+      r.remote !== undefined
+    ) {
+      const entity = contentHashEqualPrevSyncRecord(
+        r.local,
+        r.remote,
+        r.prevSync
+      );
+      if (entity.mtimeCli !== undefined && entity.mtimeCli > 0) {
+        entity.mtimeCliFmt = unixTimeToStr(entity.mtimeCli);
+      }
+      if (entity.mtimeSvr !== undefined && entity.mtimeSvr > 0) {
+        entity.mtimeSvrFmt = unixTimeToStr(entity.mtimeSvr);
+      }
+      await upsertPrevSyncRecordByVaultAndProfile(
+        db,
+        vaultRandomID,
+        profileID,
+        entity
+      );
+      if (conflictAction === "smart_conflict") {
+        if (isMergable(r.local)) {
+          const k = await getFileContentHistoryByVaultAndProfile(
+            db,
+            vaultRandomID,
+            profileID,
+            r.local
+          );
+          if (k === null || k === undefined) {
+            await upsertFileContentHistoryByVaultAndProfile(
+              db,
+              vaultRandomID,
+              profileID,
+              r.local,
+              await fsLocal.readFile(r.local.keyRaw)
+            );
+          }
+        }
+      }
+    } else if (r.prevSync !== undefined) {
       // if we have prevSync,
       // we don't need to update prevSync, because the record is already there!
 
@@ -2024,7 +2090,11 @@ export async function syncer(
       profiler,
       settings,
       triggerSource,
-      configDir
+      configDir,
+      {
+        readLocal: (key) => fsLocal.readFile(key),
+        readRemote: (key) => fsEncrypt.readFile(key),
+      }
     );
     console.debug(`mixedEntityMappings:`);
     console.debug(mixedEntityMappings); // for debugging
