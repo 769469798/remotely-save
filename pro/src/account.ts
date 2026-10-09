@@ -2,13 +2,11 @@ import { nanoid } from "nanoid";
 import {
   OAUTH2_FORCE_EXPIRE_MILLISECONDS,
   type RemotelySavePluginSettings,
-  type SUPPORTED_SERVICES_TYPE,
 } from "../../src/baseTypes";
 import {
   COMMAND_CALLBACK_PRO,
   type FeatureInfo,
   PRO_CLIENT_ID,
-  type PRO_FEATURE_TYPE,
   PRO_WEBSITE,
   type ProConfig,
 } from "./baseTypesPro";
@@ -215,116 +213,13 @@ export const getAndSaveProEmail = async (
 };
 
 /**
- * If the check doesn't pass, the function should throw the error
- * @returns
+ * Formerly required a paid Remotely Save account. This fork unlocks Smart
+ * Conflict and the extra remote services without signup or payment.
  */
 export const checkProRunnableAndFixInplace = async (
-  config: RemotelySavePluginSettings,
-  pluginVersion: string,
-  saveUpdatedConfigFunc: () => Promise<any> | undefined
+  _config: RemotelySavePluginSettings,
+  _pluginVersion: string,
+  _saveUpdatedConfigFunc: () => Promise<any> | undefined
 ): Promise<true> => {
-  console.debug(`checkProRunnableAndFixInplace`);
-
-  // many checks if status is valid
-
-  // no account
-  if (config.pro === undefined || config.pro.refreshToken === undefined) {
-    throw Error(`you need to "connect" to your account to use PRO features`);
-  }
-
-  // every features should have at most 40 days expiration dates
-  // and if the time has expired, we also check
-  const msIn40Days = 1000 * 60 * 60 * 24 * 40;
-  for (const f of config.pro.enabledProFeatures) {
-    const tooFarInTheFuture = f.expireAtTimeMs >= Date.now() + msIn40Days;
-    const alreadyExpired = f.expireAtTimeMs <= Date.now();
-    if (tooFarInTheFuture || alreadyExpired) {
-      console.info(
-        `the pro feature is too far in the future and has expired, check again.`
-      );
-      await getAndSaveProFeatures(
-        config.pro,
-        pluginVersion,
-        saveUpdatedConfigFunc
-      );
-      break;
-    }
-  }
-
-  const errorMsgs = [];
-
-  // check for smart_conflict
-  if (config.conflictAction === "smart_conflict") {
-    if (
-      config.pro.enabledProFeatures.filter(
-        (x) => x.featureName === "feature-smart_conflict"
-      ).length === 1
-    ) {
-      // good to go
-    } else {
-      errorMsgs.push(
-        `You're trying to use "smart conflict" PRO feature but you haven't subscribe to it.`
-      );
-    }
-  } else {
-    // good to go
-  }
-
-  const toChecked: {
-    feature: PRO_FEATURE_TYPE;
-    service: SUPPORTED_SERVICES_TYPE;
-    name: string;
-  }[] = [
-    {
-      feature: "feature-google_drive",
-      service: "googledrive",
-      name: "Google Drive",
-    },
-    {
-      feature: "feature-onedrive_full",
-      service: "onedrivefull",
-      name: "Onedrive (Full)",
-    },
-    { feature: "feature-box", service: "box", name: "Box" },
-    { feature: "feature-pcloud", service: "pcloud", name: "pCloud" },
-    {
-      feature: "feature-yandex_disk",
-      service: "yandexdisk",
-      name: "Yandex Disk",
-    },
-    {
-      feature: "feature-koofr",
-      service: "koofr",
-      name: "Koofr",
-    },
-    {
-      feature: "feature-azure_blob_storage",
-      service: "azureblobstorage",
-      name: "Azure Blob Storage",
-    },
-  ];
-
-  for (const { feature, service, name } of toChecked) {
-    console.debug(`checking "${feature}", serviceType=${config.serviceType}`);
-    if (config.serviceType === service) {
-      if (
-        config.pro.enabledProFeatures.filter((x) => x.featureName === feature)
-          .length === 1
-      ) {
-        // good to go
-      } else {
-        errorMsgs.push(
-          `You're trying to use "sync with ${name}" PRO feature but you haven't subscribe to it.`
-        );
-      }
-    } else {
-      // good to go
-    }
-  }
-
-  if (errorMsgs.length !== 0) {
-    throw Error(errorMsgs.join("\n\n"));
-  }
-
   return true;
 };

@@ -2021,11 +2021,22 @@ export async function syncer(
     await ribboonFunc?.(triggerSource, step);
     await statusBarFunc?.(triggerSource, step, everythingOk);
     if (fsEncrypt.innerFs !== fsRemote) {
-      throw Error(`your enc should has inner of the remote`);
+      throw Error("加密层没有挂到远端存储上。");
     }
     const passwordCheckResult = await fsEncrypt.isPasswordOk();
     if (!passwordCheckResult.ok) {
-      throw Error(passwordCheckResult.reason);
+      const passwordReasonText: Record<string, string> = {
+        remote_encrypted_local_no_password:
+          "远端文件已加密，但本地没有设置密码。",
+        unknown_encryption_method: "未知的加密方式。",
+        encryption_method_not_matched: "加密方式不匹配。",
+        password_or_method_not_matched_or_remote_not_encrypted:
+          "密码或加密方式不匹配，或者远端未加密。",
+      };
+      throw Error(
+        passwordReasonText[passwordCheckResult.reason] ??
+          passwordCheckResult.reason
+      );
     }
     profiler?.insert(
       `finish step${step} (list partial remote and check password)`

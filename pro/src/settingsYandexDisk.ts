@@ -234,39 +234,7 @@ export const generateYandexDiskSettingsPart = (
     }),
   });
 
-  yandexDiskLongDescDiv.createDiv({
-    text: stringToFragment(t("settings_yandexdisk_pro_desc")),
-    cls: "yandexdisk-disclaimer",
-  });
-
-  const yandexDiskNotShowUpHintSetting = new Setting(yandexDiskDiv)
-    .setName(t("settings_yandexdisk_notshowuphint"))
-    .setDesc(t("settings_yandexdisk_notshowuphint_desc"))
-    .addButton(async (button) => {
-      button.setButtonText(t("settings_yandexdisk_notshowuphint_view_pro"));
-      button.onClick(async () => {
-        window.location.href = "#settings-pro";
-      });
-    });
-
   const yandexDiskAllowedToUsedDiv = yandexDiskDiv.createDiv();
-  // if pro enabled, show up; otherwise hide.
-  const allowYandexDisk =
-    plugin.settings.pro?.enabledProFeatures.filter(
-      (x) => x.featureName === "feature-yandex_disk"
-    ).length === 1;
-  console.debug(`allow to show up yandexDisk settings? ${allowYandexDisk}`);
-  if (allowYandexDisk) {
-    yandexDiskAllowedToUsedDiv.removeClass("yandexdisk-allow-to-use-hide");
-    yandexDiskNotShowUpHintSetting.settingEl.addClass(
-      "yandexdisk-allow-to-use-hide"
-    );
-  } else {
-    yandexDiskAllowedToUsedDiv.addClass("yandexdisk-allow-to-use-hide");
-    yandexDiskNotShowUpHintSetting.settingEl.removeClass(
-      "yandexdisk-allow-to-use-hide"
-    );
-  }
 
   const yandexDiskSelectAuthDiv = yandexDiskAllowedToUsedDiv.createDiv();
   const yandexDiskAuthDiv = yandexDiskSelectAuthDiv.createDiv({
@@ -372,7 +340,5 @@ export const generateYandexDiskSettingsPart = (
 
   return {
     yandexDiskDiv: yandexDiskDiv,
-    yandexDiskAllowedToUsedDiv: yandexDiskAllowedToUsedDiv,
-    yandexDiskNotShowUpHintSetting: yandexDiskNotShowUpHintSetting,
   };
 };

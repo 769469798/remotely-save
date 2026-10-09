@@ -23,6 +23,7 @@
   "syncrun_shortstep2skip": "2/2 Remotely Save 在空跑模式，跳過實際資料交換步驟。",
   "syncrun_shortstep2": "2/2 Remotely Save 已完成同步！",
   "syncrun_abort": "{{manifestID}}-{{theDate}}：中斷同步，同步來源={{triggerSource}}，出錯階段={{syncStatus}}",
+  "syncrun_failed": "同步出錯。",
   "syncrun_abort_protectmodifypercentage": "中斷同步！您設定了不允許 >= {{protectModifyPercentage}}% 的變更，但是現在 {{realModifyDeleteCount}}/{{allFilesCount}}={{percent}}% 的檔案會被修改或刪除！如果您確認這次同步是您想要的，那麼請在設定裡修改允許比例。",
   "protocol_saveqr": " {{manifestName}} 的新設定匯入完成。請重啟外掛設定頁使之生效。",
   "protocol_callbacknotsupported": "您的 uri callback 暫不支援： {{params}}",

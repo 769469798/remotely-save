@@ -107,7 +107,7 @@ export const importQrCodeUri = (
   ) {
     return {
       status: "error",
-      message: `the uri is not for exporting/importing settings: ${JSON.stringify(
+      message: `这个 URI 不是用来导入或导出设置的：${JSON.stringify(
         inputParams
       )}`,
     };
@@ -116,11 +116,9 @@ export const importQrCodeUri = (
   if (params.vault !== currentVaultName) {
     return {
       status: "error",
-      message: `the target vault is ${
+      message: `目标库（Vault）是 ${
         params.vault
-      } but you are currently in ${currentVaultName}: ${JSON.stringify(
-        inputParams
-      )}`,
+      }，但当前库是 ${currentVaultName}：${JSON.stringify(inputParams)}`,
     };
   }
 
@@ -130,7 +128,7 @@ export const importQrCodeUri = (
   } catch (e) {
     return {
       status: "error",
-      message: `errors while parsing settings: ${JSON.stringify(inputParams)}`,
+      message: `解析设置时出错：${JSON.stringify(inputParams)}`,
     };
   }
   return {

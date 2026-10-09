@@ -28,7 +28,6 @@ import { generateGoogleDriveSettingsPart } from "../pro/src/settingsGoogleDrive"
 import { generateKoofrSettingsPart } from "../pro/src/settingsKoofr";
 import { generateOnedriveFullSettingsPart } from "../pro/src/settingsOnedriveFull";
 import { generatePCloudSettingsPart } from "../pro/src/settingsPCloud";
-import { generateProSettingsPart } from "../pro/src/settingsPro";
 import { generateYandexDiskSettingsPart } from "../pro/src/settingsYandexDisk";
 import { API_VER_ENSURE_REQURL_OK, VALID_REQURL } from "./baseTypesObs";
 import { messyConfigToNormal } from "./configPersist";
@@ -1842,11 +1841,7 @@ export class RemotelySaveSettingTab extends PluginSettingTab {
     // below for Onedrive (Full)
     //////////////////////////////////////////////////
 
-    const {
-      onedriveFullDiv,
-      onedriveFullAllowedToUsedDiv,
-      onedriveFullNotShowUpHintSetting,
-    } = generateOnedriveFullSettingsPart(
+    const { onedriveFullDiv } = generateOnedriveFullSettingsPart(
       containerEl,
       t,
       this.app,
@@ -1858,11 +1853,7 @@ export class RemotelySaveSettingTab extends PluginSettingTab {
     // below for googledrive
     //////////////////////////////////////////////////
 
-    const {
-      googleDriveDiv,
-      googleDriveAllowedToUsedDiv,
-      googleDriveNotShowUpHintSetting,
-    } = generateGoogleDriveSettingsPart(
+    const { googleDriveDiv } = generateGoogleDriveSettingsPart(
       containerEl,
       t,
       this.app,
@@ -1874,29 +1865,31 @@ export class RemotelySaveSettingTab extends PluginSettingTab {
     // below for box
     //////////////////////////////////////////////////
 
-    const { boxDiv, boxAllowedToUsedDiv, boxNotShowUpHintSetting } =
-      generateBoxSettingsPart(containerEl, t, this.app, this.plugin, () =>
-        this.plugin.saveSettings()
-      );
+    const { boxDiv } = generateBoxSettingsPart(
+      containerEl,
+      t,
+      this.app,
+      this.plugin,
+      () => this.plugin.saveSettings()
+    );
 
     //////////////////////////////////////////////////
     // below for pcloud
     //////////////////////////////////////////////////
 
-    const { pCloudDiv, pCloudAllowedToUsedDiv, pCloudNotShowUpHintSetting } =
-      generatePCloudSettingsPart(containerEl, t, this.app, this.plugin, () =>
-        this.plugin.saveSettings()
-      );
+    const { pCloudDiv } = generatePCloudSettingsPart(
+      containerEl,
+      t,
+      this.app,
+      this.plugin,
+      () => this.plugin.saveSettings()
+    );
 
     //////////////////////////////////////////////////
     // below for yandexdisk
     //////////////////////////////////////////////////
 
-    const {
-      yandexDiskDiv,
-      yandexDiskAllowedToUsedDiv,
-      yandexDiskNotShowUpHintSetting,
-    } = generateYandexDiskSettingsPart(
+    const { yandexDiskDiv } = generateYandexDiskSettingsPart(
       containerEl,
       t,
       this.app,
@@ -1908,20 +1901,19 @@ export class RemotelySaveSettingTab extends PluginSettingTab {
     // below for koofr
     //////////////////////////////////////////////////
 
-    const { koofrDiv, koofrAllowedToUsedDiv, koofrNotShowUpHintSetting } =
-      generateKoofrSettingsPart(containerEl, t, this.app, this.plugin, () =>
-        this.plugin.saveSettings()
-      );
+    const { koofrDiv } = generateKoofrSettingsPart(
+      containerEl,
+      t,
+      this.app,
+      this.plugin,
+      () => this.plugin.saveSettings()
+    );
 
     //////////////////////////////////////////////////
     // below for Azure Blob Storage
     //////////////////////////////////////////////////
 
-    const {
-      azureBlobStorageDiv,
-      azureBlobStorageAllowedToUsedDiv,
-      azureBlobStorageNotShowUpHintSetting,
-    } = generateAzureBlobStorageSettingsPart(
+    const { azureBlobStorageDiv } = generateAzureBlobStorageSettingsPart(
       containerEl,
       t,
       this.app,
@@ -2739,33 +2731,6 @@ export class RemotelySaveSettingTab extends PluginSettingTab {
           }
         });
       });
-
-    //////////////////////////////////////////////////
-    // below for pro
-    //////////////////////////////////////////////////
-
-    const proDiv = containerEl.createEl("div");
-    generateProSettingsPart(
-      proDiv,
-      t,
-      this.app,
-      this.plugin,
-      () => this.plugin.saveSettings(),
-      onedriveFullAllowedToUsedDiv,
-      onedriveFullNotShowUpHintSetting,
-      googleDriveAllowedToUsedDiv,
-      googleDriveNotShowUpHintSetting,
-      boxAllowedToUsedDiv,
-      boxNotShowUpHintSetting,
-      pCloudAllowedToUsedDiv,
-      pCloudNotShowUpHintSetting,
-      yandexDiskAllowedToUsedDiv,
-      yandexDiskNotShowUpHintSetting,
-      koofrAllowedToUsedDiv,
-      koofrNotShowUpHintSetting,
-      azureBlobStorageAllowedToUsedDiv,
-      azureBlobStorageNotShowUpHintSetting
-    );
 
     //////////////////////////////////////////////////
     // below for debug

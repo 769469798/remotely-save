@@ -22,15 +22,15 @@
   - Amazon S3 或兼容 S3 的服务（Cloudflare R2 / BackBlaze B2 / MinIO / ...）
   - Dropbox
   - 个人版本 OneDrive（应用文件夹）
-  - 个人版本 OneDrive（根目录）（PRO 功能）
+  - 个人版本 OneDrive（根目录）
   - Webdav（NextCloud / InfiniCloud / Synology webdav 服务器 / ...）
   - Webdis
-  - Google Drive（GDrive）（PRO 功能）
-  - Box（PRO 功能）
-  - pCloud（PRO 功能）
-  - Yandex Disk（PRO 功能）
-  - Koofr（PRO 功能）
-  - Azure Blob Storage（PRO 功能）
+  - Google Drive（GDrive）
+  - Box
+  - pCloud
+  - Yandex Disk
+  - Koofr
+  - Azure Blob Storage
   - [这里](./docs/services_connectable_or_not.md)详细展示了更多可连接（或不可连接）的服务。
 - **支持 Obsidian 移动版。**  vault 可以通过云服务作为“中介”在移动和桌面设备之间同步。
 - **支持[端到端加密](./docs/encryption/README.md)。** 如果用户指定密码，文件在发送到云之前会使用 openssl / rclone crypt 格式加密。
@@ -38,7 +38,7 @@
 - **[最小侵入性](./docs/minimal_intrusive_design.md)。**
 - 通过自定义正则表达式条件**跳过大文件和路径！**
 - **[同步算法](./docs/sync_algorithm/v3/intro.md)文档公开。**
-- 免费版本支持 **[基本冲突检测和处理](./docs/sync_algorithm/v3/intro.md)**。PRO 版本支持 **[高级智能冲突处理](./pro/README.md)**。
+- 支持 **[冲突检测和处理](./docs/sync_algorithm/v3/intro.md)**，包括 Smart Conflict。本分支不需要 Remotely Save 账号，也不需要付费。
 - 源代码可阅。详见[许可证](./LICENSE)。
 
 ## 限制
@@ -102,7 +102,7 @@
 
 - **此插件不是官方 Microsoft / OneDrive 产品。** 插件只是使用 Microsoft 的 [OneDrive 公共 API](https://docs.microsoft.com/en-us/onedrive/developer/rest-api) 而已。
 - 此插件仅适用于“个人 OneDrive”，不适用于“OneDrive for Business。详见 [#11](https://github.com/fyears/remotely-save/issues/11)。
-- 授权后，插件可以读取你的姓名和电子邮件，并读取和写入你的OneDrive的 `/Apps/remotely-save` 文件夹中的文件。**Remotely Save 的免费版本仅连接到应用文件夹，而 PRO 版本可以连接到 Onedrive 的根文件夹。见下面的 PRO 部分。**
+- 授权后，插件可以读取你的姓名和电子邮件，并读取和写入你的OneDrive的 `/Apps/remotely-save` 文件夹中的文件。OneDrive（Full）可以连接到根文件夹，不需要 Remotely Save 账号。
 - 如果你决定授权此插件连接到 OneDrive，请访问插件的设置页，选择OneDrive 然后按照说明操作。
 - 基于密码的端到端加密也是可以的。但请注意，**vault 名称本身未加密**。
 - 如果你想在多个设备之间同步文件，**在使用默认设置时，你的 vault 名称应该相同**。
@@ -135,41 +135,37 @@
 - 实验性质。
 - 你必须自己设置和保护你的 web 服务器。
 
-### Onedrive（完整访问）（PRO 功能）
+### OneDrive（完整访问）
 
-PRO（付费）功能“与 Onedrive（完整）同步”允许用户与 Onedrive 根文件夹进行同步。教程和限制在[这里](./docs/remote_services/onedrivefull/README.md)。
+可以与 OneDrive 根文件夹同步。教程和限制见[这里](./docs/remote_services/onedrivefull/README.md)。不需要 Remotely Save 账号。
 
-### Google Drive（GDrive）（PRO 功能）
+### Google Drive（GDrive）
 
-PRO（付费）功能“与 Google Drive 同步”允许用户与 Google Drive 进行同步。教程和限制在[这里](./docs/remote_services/googledrive/README.md)。
+可以与 Google Drive 同步。教程和限制见[这里](./docs/remote_services/googledrive/README.md)。
 
-### Box（PRO 功能）
+### Box
 
-PRO（付费）功能“与 Box 同步”允许用户与 Box 同步。教程和限制在[这里](./docs/remote_services/box/README.md)。
+可以与 Box 同步。教程和限制见[这里](./docs/remote_services/box/README.md)。
 
-### pCloud（PRO 功能）
+### pCloud
 
-PRO（付费）功能“与 pCloud 同步”允许用户与 pCloud 同步（使用其原生 API 而不是 webdav）。教程和限制在[这里](./docs/remote_services/pcloud/README.md)。
+可以与 pCloud 同步（使用原生 API，而不是 WebDAV）。教程和限制见[这里](./docs/remote_services/pcloud/README.md)。
 
-### Yandex Disk（PRO 功能）
+### Yandex Disk
 
-PRO（付费）功能“与 Yandex Disk 同步”允许用户与 Yandex Disk 同步（使用其原生 API 而不是 webdav）。教程和限制在[这里](./docs/remote_services/yandexdisk/README.md)。
+可以与 Yandex Disk 同步（使用原生 API，而不是 WebDAV）。教程和限制见[这里](./docs/remote_services/yandexdisk/README.md)。
 
-### Koofr（PRO 功能）
+### Koofr
 
-PRO（付费）功能“与 Koofr 同步”允许用户与 Koofr 同步（使用其原生 API 而不是 webdav）。教程和限制在[这里](./docs/remote_services/koofr/README.md)。
+可以与 Koofr 同步（使用原生 API，而不是 WebDAV）。教程和限制见[这里](./docs/remote_services/koofr/README.md)。
 
-### Azure Blob Storage（PRO 功能）
+### Azure Blob Storage
 
-PRO（付费）功能“与 Azure Blob Storage 同步”允许用户与 Azure Blob Storage 同步。教程和限制在[这里](./docs/remote_services/azureblobstorage/README.md)。
+可以与 Azure Blob Storage 同步。教程和限制见[这里](./docs/remote_services/azureblobstorage/README.md)。
 
-## 智能冲突（PRO功能）
+## Smart Conflict
 
-基本（免费）版本可以检测冲突，但用户必须选择保留较新版本或较大版本的文件两种选项之一。
-
-PRO（付费）功能“智能冲突”为用户提供了另一个选项：合并小的 markdown 文件，或复制大的 markdown 文件或任何大小的非 markdown 文件。
-
-文档见[这里](./docs/pro/README.md)。
+可以保留较新文件、保留较大文件，或使用 Smart Conflict：合并较小的 markdown 文件，或为较大的 markdown 文件和非 markdown 文件各保留一份。不需要 Remotely Save 账号。
 
 ## 定时自动同步
 
@@ -196,11 +192,7 @@ PRO（付费）功能“智能冲突”为用户提供了另一个选项：合�
 
 在最新版本中，你可以更改设置以允许同步 `_` 文件或文件夹，以及如上所述的 `.obsidian` 特殊配置文件夹（但不包括其他任何 `.` 文件或文件夹）。
 
-## PRO（付费）功能
-
-详见[PRO](./docs/pro/README.md)了解更多详情。
-
-## 如何调试（debug）
+## 如何调试
 
 如发生错误，查看[这里文档](./docs/how_to_debug/README.md)了解调试方式。
 
