@@ -52,6 +52,8 @@ Bidirectional:
 | local deleted   | (04) delete remote | (05) pull                 | (01) clean history | (03) pull                 |
 | local created   | (??) conflict      | (??) conflict             | (06) push          | (11/12/13/14/15) conflict |
 
+Branch **40** is another do-nothing, like 02/21. Both copies exist and mtime+size disagree, but the content hashes match. It is `equal` / `change = false`, so modify-protection does not count the file. See [content hash recheck](../content_hash_recheck.md).
+
 Incremental push:
 
 | local\remote    | remote unchanged             | remote modified              | remote deleted         | remote created               |

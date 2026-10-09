@@ -5,3 +5,4 @@
 - v3
   - [intro doc for end users](./v3/intro.md)
   - [design doc](./v3/design.md)
+- [content hash recheck](./content_hash_recheck.md)
