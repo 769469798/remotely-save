@@ -77,7 +77,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: { loader: "ts-loader", options: { transpileOnly: true } },
         exclude: /node_modules/,
       },
       {
@@ -93,6 +93,9 @@ module.exports = {
     ],
   },
   resolve: {
+    alias: {
+      "aggregate-error": require("path").resolve(__dirname, "src/aggregate-error-shim.js"),
+    },
     extensions: [".tsx", ".ts", ".js"],
     mainFields: ["browser", "module", "main"],
     fallback: {
