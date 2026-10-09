@@ -163,7 +163,7 @@ const migrateDBs = async (
   // drop any old code to reduce the verbose
   if (oldVer < 20220326) {
     throw Error(
-      "You are using a very old version of Remotely Save. No way to auto update internal DB. Please install and enable 0.3.40 firstly, then install a later version."
+      "你正在使用非常旧的 Remotely Save。无法自动升级内部数据库。请先安装并启用 0.3.40，然后再安装更新的版本。"
     );
   }
 
@@ -172,12 +172,10 @@ const migrateDBs = async (
   }
 
   if (newVer < oldVer) {
-    throw Error(
-      "You've installed a new version, but then downgrade to an old version. Stop working!"
-    );
+    throw Error("你安装过更新的版本，然后又降级到旧版本。插件已停止工作。");
   }
   // not implemented
-  throw Error(`not supported internal db changes from ${oldVer} to ${newVer}`);
+  throw Error(`不支持从内部数据库版本 ${oldVer} 升级到 ${newVer}`);
 };
 
 export const prepareDBs = async (
@@ -256,7 +254,7 @@ export const prepareDBs = async (
   }
 
   if (vaultRandomID === "") {
-    throw Error("no vaultRandomID found or generated");
+    throw Error("没有找到或生成库（Vault）ID");
   }
 
   // as of 20240220, we set the version per vault, instead of global "version"

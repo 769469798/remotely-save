@@ -1,6 +1,5 @@
 import merge from "lodash/merge";
 import Mustache from "mustache";
-import { moment } from "obsidian";
 
 import { LANGS as LANGS_PRO } from "../pro/src/langs";
 import { LANGS as LANGS_BASIC } from "./langs";
@@ -27,15 +26,9 @@ export class I18n {
   }
 
   _get(key: TransItemType) {
-    let realLang = this.lang;
-    if (this.lang === "auto" && moment.locale().replace("-", "_") in LANGS) {
-      realLang = moment.locale().replace("-", "_") as LangType;
-    } else {
-      realLang = "en";
-    }
-
-    const res: string =
-      (LANGS[realLang] as (typeof LANGS)["en"])[key] || LANGS["en"][key] || key;
+    // This fork shows Simplified Chinese for every user-facing string.
+    const zh = LANGS.zh_cn as unknown as (typeof LANGS)["en"];
+    const res: string = zh[key] || LANGS.en[key] || key;
     return res;
   }
 

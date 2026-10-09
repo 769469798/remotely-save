@@ -1,6 +1,6 @@
 {
-  "settings_conflictaction_smart_conflict": "智能处理冲突 (PRO) (beta)",
-  "settings_conflictaction_smart_conflict_desc": "<p><strong>！！这是 PRO（付费）功能! 您需要在线账号来使用此功能！！</strong>（<a href=\"#settings-pro\">向下滑</a>可以看到 PRO 账号的更多信息。）</p><p><ul><li>小 markdown 文件，本插件尝试使用 diff3 算法合并它；</li><li>对于大文件或非 markdown 文件，本插件尝试改名字并均进行保存。</li></ul></p><p><strong>请注意先手动备份 vault 文件再用此功能！</strong></p>",
+  "settings_conflictaction_smart_conflict": "Smart Conflict（beta）",
+  "settings_conflictaction_smart_conflict_desc": "<p><ul><li>小 markdown 文件，本插件尝试使用 diff3 算法合并；</li><li>对于大文件或非 markdown 文件，本插件会改名并同时保存两份。</li></ul></p><p><strong>请先手动备份库（Vault）再用此功能。</strong></p>",
 
   "protocol_pro_connecting": "正在连接",
   "protocol_pro_connect_manualinput_succ": "连接成功",
@@ -145,11 +145,15 @@
   "modal_cleardupfiles_warning_finished": "所有检测到的重复文件已被删除！",
 
   "settings_onedrivefull": "Onedrive（个人版）（Full）设置",
-  "settings_chooseservice_onedrivefull": "OneDrive（个人版）（Full）（PRO）",
+  "settings_chooseservice_onedrivefull": "OneDrive（个人版）（Full）",
   "settings_onedrivefull_disclaimer1": "声明：此插件不是微软或 OneDrive 的官方产品。",
   "settings_onedrivefull_disclaimer2": "声明：您所输入的信息存储于本地。其它有害的或者出错的插件，是有可能读取到这些信息的。如果您发现了 OneDrive 有不符合预期的访问，请立刻从 https://microsoft.com/consent 删除记录于此插件的连接鉴权。",
   "settings_onedrivefull_folder": "我们会在您的 OneDrive 上创建此文件夹并在里面同步：/{{remoteBaseDir}}。",
   "settings_onedrivefull_nobiz": "现在只支持个人版 OneDrive。（暂时）并不支持企业版 OneDrive。",
+  "settings_onedrivefull_pro_desc": "OneDrive（个人版）（Full）可以直接使用。",
+  "settings_onedrivefull_notshowuphint": "OneDrive（个人版）（Full）",
+  "settings_onedrivefull_notshowuphint_desc": "OneDrive（个人版）（Full）设置已可用。",
+  "settings_onedrivefull_notshowuphint_view_pro": "查看设置",
   "settings_onedrivefull_revoke": "撤回鉴权",
   "settings_onedrivefull_revoke_desc": "您现在使用了用户名 {{username}} 来连接。如果想取消连接，请点击此按钮。",
   "settings_onedrivefull_revoke_button": "撤回鉴权",
@@ -163,8 +167,8 @@
   "settings_onedrivefull_emptyfile_skip": "跳过",
   "settings_onedrivefull_emptyfile_error": "返回错误和中断",
 
-  "settings_googledrive": "Google Drive (PRO) (beta)",
-  "settings_chooseservice_googledrive": "Google Drive (PRO) (beta)",
+  "settings_googledrive": "Google Drive（beta）",
+  "settings_chooseservice_googledrive": "Google Drive（beta）",
   "settings_googledrive_disclaimer1": "声明：本插件不是 Google 的官方产品。只是用到了它的公开 API。",
   "settings_googledrive_disclaimer2": "声明：您所输入的信息存储于本地。其它有害的或者出错的插件，是有可能读取到这些信息的。如果您发现任何不符合预期的 Google Drive 访问，请立刻在以下网站操作断开连接： https://myaccount.google.com/permissions 。",
   "settings_googledrive_pro_desc": "<p><strong>！！这是 PRO（付费）功能! 您需要在线账号来使用此功能！！</strong>（<a href=\"#settings-pro\">向下滑</a>可以看到 PRO 账号的更多信息。）</p>",
@@ -181,8 +185,8 @@
   "settings_googledrive_connect_succ": "很好！我们可连接上 Google Drive！",
   "settings_googledrive_connect_fail": "我们未能连接上 Google Drive。",
 
-  "settings_box": "Box (PRO) (beta)",
-  "settings_chooseservice_box": "Box (PRO) (beta)",
+  "settings_box": "Box（beta）",
+  "settings_chooseservice_box": "Box（beta）",
   "settings_box_disclaimer1": "声明：本插件不是 Box 的官方产品。只是用到了它的公开 API。",
   "settings_box_disclaimer2": "声明：您所输入的信息存储于本地。其它有害的或者出错的插件，是有可能读取到这些信息的。如果您发现任何不符合预期的 Box 访问，请立刻在以下网站操作断开连接： https://app.box.com/account/security 。",
   "settings_box_pro_desc": "<p><strong>！！这是 PRO（付费）功能! 您需要在线账号来使用此功能！！</strong>（<a href=\"#settings-pro\">向下滑</a>可以看到 PRO 账号的更多信息。）</p>",
@@ -199,8 +203,8 @@
   "settings_box_connect_succ": "很好！我们可连接上 Box！",
   "settings_box_connect_fail": "我们未能连接上 Box。",
 
-  "settings_pcloud": "pCloud (PRO) (beta)",
-  "settings_chooseservice_pcloud": "pCloud (PRO) (beta)",
+  "settings_pcloud": "pCloud（beta）",
+  "settings_chooseservice_pcloud": "pCloud（beta）",
   "settings_pcloud_disclaimer1": "声明：本插件不是 pCloud 的官方产品。只是用到了它的公开 API。",
   "settings_pcloud_disclaimer2": "声明：您所输入的信息存储于本地。其它有害的或者出错的插件，是有可能读取到这些信息的。如果您发现任何不符合预期的 pCloud 访问，请立刻在以下网站操作断开连接： https://my.pcloud.com/#page=settings&settings=tab-apps 。",
   "settings_pcloud_pro_desc": "<p><strong>！！这是 PRO（付费）功能! 您需要在线账号来使用此功能！！</strong>（<a href=\"#settings-pro\">向下滑</a>可以看到 PRO 账号的更多信息。）</p>",
@@ -221,8 +225,8 @@
   "settings_pcloud_connect_succ": "很好！我们可连接上 pCloud！",
   "settings_pcloud_connect_fail": "我们未能连接上 pCloud。",
 
-  "settings_yandexdisk": "Yandex Disk (PRO) (beta)",
-  "settings_chooseservice_yandexdisk": "Yandex Disk (PRO) (beta)",
+  "settings_yandexdisk": "Yandex Disk（beta）",
+  "settings_chooseservice_yandexdisk": "Yandex Disk（beta）",
   "settings_yandexdisk_disclaimer1": "声明：本插件不是 Yandex Disk 的官方产品。只是用到了它的公开 API。",
   "settings_yandexdisk_disclaimer2": "声明：您所输入的信息存储于本地。其它有害的或者出错的插件，是有可能读取到这些信息的。如果您发现任何不符合预期的 Yandex Disk 访问，请立刻在以下网站操作断开连接： https://id.yandex.com/profile/devices 。",
   "settings_yandexdisk_pro_desc": "<p><strong>！！这是 PRO（付费）功能! 您需要在线账号来使用此功能！！</strong>（<a href=\"#settings-pro\">向下滑</a>可以看到 PRO 账号的更多信息。）</p>",
@@ -239,8 +243,8 @@
   "settings_yandexdisk_connect_succ": "很好！我们可连接上 Yandex Disk！",
   "settings_yandexdisk_connect_fail": "我们未能连接上 Yandex Disk。",
 
-  "settings_koofr": "Koofr (PRO) (beta)",
-  "settings_chooseservice_koofr": "Koofr (PRO) (beta)",
+  "settings_koofr": "Koofr（beta）",
+  "settings_chooseservice_koofr": "Koofr（beta）",
   "settings_koofr_disclaimer1": "声明：本插件不是 Koofr 的官方产品。只是用到了它的公开 API。",
   "settings_koofr_disclaimer2": "声明：您所输入的信息存储于本地。其它有害的或者出错的插件，是有可能读取到这些信息的。如果您发现任何不符合预期的 Koofr 访问，请立刻在以下网站操作断开连接： https://app.koofr.net/app/admin/preferences/security 。",
   "settings_koofr_pro_desc": "<p><strong>！！这是 PRO（付费）功能! 您需要在线账号来使用此功能！！</strong>（<a href=\"#settings-pro\">向下滑</a>可以看到 PRO 账号的更多信息。）</p>",
@@ -257,8 +261,8 @@
   "settings_koofr_connect_succ": "很好！我们可连接上 Koofr！",
   "settings_koofr_connect_fail": "我们未能连接上 Koofr。",
 
-  "settings_azureblobstorage": "Azure Blob Storage (PRO) (alpha)",
-  "settings_chooseservice_azureblobstorage": "Azure Blob Storage (PRO) (alpha)",
+  "settings_azureblobstorage": "Azure Blob Storage（alpha）",
+  "settings_chooseservice_azureblobstorage": "Azure Blob Storage（alpha）",
   "settings_azureblobstorage_disclaimer1": "声明：本插件不是微软或 Azure 的官方产品。只是用到了 Azure 的公开 API。",
   "settings_azureblobstorage_disclaimer2": "声明：您所输入的信息存储于本地。其它有害的或者出错的插件，是有可能读取到这些信息的。如果您发现任何不符合预期的 Azure Blob Storage 访问，请立刻删除 SAS Url 然后<a href=\"https://github.com/remotely-save/remotely-save/blob/master/docs/remote_services/azureblobstorage/README.md\">修改预设的 policy</a> 或账号信息。",
   "settings_azureblobstorage_pro_desc": "<p><strong>！！这是 PRO（付费）功能! 您需要在线账号来使用此功能！！</strong>（<a href=\"#settings-pro\">向下滑</a>可以看到 PRO 账号的更多信息。）</p>",
@@ -290,7 +294,7 @@
   "settings_export_azureblobstorage_button": "导出 Azure Blob Storage 部分",
 
   "settings_cleardupfiles": "删除智能处理冲突生成的重复文件",
-  "settings_cleardupfiles_desc": "如果用过智能处理冲突 (PRO) 功能，插件可能会生成重复文件。<strong>如果您真的确认了所有重复文件都不需要了，</strong>那么可以删除本地的<strong>所有</strong>这些文件。",
+  "settings_cleardupfiles_desc": "如果用过 Smart Conflict，插件可能会生成重复文件。<strong>如果您确认这些重复文件都不需要了，</strong>那么可以删除本地的<strong>所有</strong>这些文件。",
   "settings_cleardupfiles_button": "开始扫描",
 
   "settings_pro": "账号（PRO 付费功能）",

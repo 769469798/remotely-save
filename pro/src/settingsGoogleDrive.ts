@@ -237,39 +237,7 @@ export const generateGoogleDriveSettingsPart = (
     }),
   });
 
-  googleDriveLongDescDiv.createDiv({
-    text: stringToFragment(t("settings_googledrive_pro_desc")),
-    cls: "googledrive-disclaimer",
-  });
-
-  const googleDriveNotShowUpHintSetting = new Setting(googleDriveDiv)
-    .setName(t("settings_googledrive_notshowuphint"))
-    .setDesc(t("settings_googledrive_notshowuphint_desc"))
-    .addButton(async (button) => {
-      button.setButtonText(t("settings_googledrive_notshowuphint_view_pro"));
-      button.onClick(async () => {
-        window.location.href = "#settings-pro";
-      });
-    });
-
   const googleDriveAllowedToUsedDiv = googleDriveDiv.createDiv();
-  // if pro enabled, show up; otherwise hide.
-  const allowGoogleDrive =
-    plugin.settings.pro?.enabledProFeatures.filter(
-      (x) => x.featureName === "feature-google_drive"
-    ).length === 1;
-  console.debug(`allow to show up google drive settings? ${allowGoogleDrive}`);
-  if (allowGoogleDrive) {
-    googleDriveAllowedToUsedDiv.removeClass("googledrive-allow-to-use-hide");
-    googleDriveNotShowUpHintSetting.settingEl.addClass(
-      "googledrive-allow-to-use-hide"
-    );
-  } else {
-    googleDriveAllowedToUsedDiv.addClass("googledrive-allow-to-use-hide");
-    googleDriveNotShowUpHintSetting.settingEl.removeClass(
-      "googledrive-allow-to-use-hide"
-    );
-  }
 
   const googleDriveSelectAuthDiv = googleDriveAllowedToUsedDiv.createDiv();
   const googleDriveAuthDiv = googleDriveSelectAuthDiv.createDiv({
@@ -375,7 +343,5 @@ export const generateGoogleDriveSettingsPart = (
 
   return {
     googleDriveDiv: googleDriveDiv,
-    googleDriveAllowedToUsedDiv: googleDriveAllowedToUsedDiv,
-    googleDriveNotShowUpHintSetting: googleDriveNotShowUpHintSetting,
   };
 };

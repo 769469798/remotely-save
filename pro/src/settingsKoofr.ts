@@ -228,35 +228,7 @@ export const generateKoofrSettingsPart = (
     }),
   });
 
-  koofrLongDescDiv.createDiv({
-    text: stringToFragment(t("settings_koofr_pro_desc")),
-    cls: "koofr-disclaimer",
-  });
-
-  const koofrNotShowUpHintSetting = new Setting(koofrDiv)
-    .setName(t("settings_koofr_notshowuphint"))
-    .setDesc(t("settings_koofr_notshowuphint_desc"))
-    .addButton(async (button) => {
-      button.setButtonText(t("settings_koofr_notshowuphint_view_pro"));
-      button.onClick(async () => {
-        window.location.href = "#settings-pro";
-      });
-    });
-
   const koofrAllowedToUsedDiv = koofrDiv.createDiv();
-  // if pro enabled, show up; otherwise hide.
-  const allowKoofr =
-    plugin.settings.pro?.enabledProFeatures.filter(
-      (x) => x.featureName === "feature-koofr"
-    ).length === 1;
-  console.debug(`allow to show up koofr settings? ${allowKoofr}`);
-  if (allowKoofr) {
-    koofrAllowedToUsedDiv.removeClass("koofr-allow-to-use-hide");
-    koofrNotShowUpHintSetting.settingEl.addClass("koofr-allow-to-use-hide");
-  } else {
-    koofrAllowedToUsedDiv.addClass("koofr-allow-to-use-hide");
-    koofrNotShowUpHintSetting.settingEl.removeClass("koofr-allow-to-use-hide");
-  }
 
   const koofrSelectAuthDiv = koofrAllowedToUsedDiv.createDiv();
   const koofrAuthDiv = koofrSelectAuthDiv.createDiv({
@@ -361,7 +333,5 @@ export const generateKoofrSettingsPart = (
 
   return {
     koofrDiv: koofrDiv,
-    koofrAllowedToUsedDiv: koofrAllowedToUsedDiv,
-    koofrNotShowUpHintSetting: koofrNotShowUpHintSetting,
   };
 };

@@ -108,47 +108,7 @@ export const generateAzureBlobStorageSettingsPart = (
     }),
   });
 
-  azureBlobStorageLongDescDiv.createDiv({
-    text: stringToFragment(t("settings_azureblobstorage_pro_desc")),
-    cls: "azureblobstorage-disclaimer",
-  });
-
-  const azureBlobStorageNotShowUpHintSetting = new Setting(azureBlobStorageDiv)
-    .setName(t("settings_azureblobstorage_notshowuphint"))
-    .setDesc(t("settings_azureblobstorage_notshowuphint_desc"))
-    .addButton(async (button) => {
-      button.setButtonText(
-        t("settings_azureblobstorage_notshowuphint_view_pro")
-      );
-      button.onClick(async () => {
-        window.location.href = "#settings-pro";
-      });
-    });
-
   const azureBlobStorageAllowedToUsedDiv = azureBlobStorageDiv.createDiv();
-  // if pro enabled, show up; otherwise hide.
-  const allowAzureBlobStorage =
-    plugin.settings.pro?.enabledProFeatures.filter(
-      (x) => x.featureName === "feature-azure_blob_storage"
-    ).length === 1;
-  console.debug(
-    `allow to show up azureBlobStorage settings? ${allowAzureBlobStorage}`
-  );
-  if (allowAzureBlobStorage) {
-    azureBlobStorageAllowedToUsedDiv.removeClass(
-      "azureblobstorage-allow-to-use-hide"
-    );
-    azureBlobStorageNotShowUpHintSetting.settingEl.addClass(
-      "azureblobstorage-allow-to-use-hide"
-    );
-  } else {
-    azureBlobStorageAllowedToUsedDiv.addClass(
-      "azureblobstorage-allow-to-use-hide"
-    );
-    azureBlobStorageNotShowUpHintSetting.settingEl.removeClass(
-      "azureblobstorage-allow-to-use-hide"
-    );
-  }
 
   new Setting(azureBlobStorageAllowedToUsedDiv)
     .setName(t("settings_azureblobstorage_containersasurl"))
@@ -287,7 +247,5 @@ export const generateAzureBlobStorageSettingsPart = (
 
   return {
     azureBlobStorageDiv: azureBlobStorageDiv,
-    azureBlobStorageAllowedToUsedDiv: azureBlobStorageAllowedToUsedDiv,
-    azureBlobStorageNotShowUpHintSetting: azureBlobStorageNotShowUpHintSetting,
   };
 };

@@ -195,39 +195,7 @@ export const generateOnedriveFullSettingsPart = (
     text: t("settings_onedrivefull_nobiz"),
   });
 
-  onedriveFullLongDescDiv.createDiv({
-    text: stringToFragment(t("settings_onedrivefull_pro_desc")),
-    cls: "onedrivefull-disclaimer",
-  });
-
-  const onedriveFullNotShowUpHintSetting = new Setting(onedriveFullDiv)
-    .setName(t("settings_onedrivefull_notshowuphint"))
-    .setDesc(t("settings_onedrivefull_notshowuphint_desc"))
-    .addButton(async (button) => {
-      button.setButtonText(t("settings_onedrivefull_notshowuphint_view_pro"));
-      button.onClick(async () => {
-        window.location.href = "#settings-pro";
-      });
-    });
-
   const onedriveFullAllowedToUsedDiv = onedriveFullDiv.createDiv();
-  // if pro enabled, show up; otherwise hide.
-  const allowOnedriveFull =
-    plugin.settings.pro?.enabledProFeatures.filter(
-      (x) => x.featureName === "feature-onedrive_full"
-    ).length === 1;
-  console.debug(`allow to show up onedriveFull settings? ${allowOnedriveFull}`);
-  if (allowOnedriveFull) {
-    onedriveFullAllowedToUsedDiv.removeClass("onedrivefull-allow-to-use-hide");
-    onedriveFullNotShowUpHintSetting.settingEl.addClass(
-      "onedrivefull-allow-to-use-hide"
-    );
-  } else {
-    onedriveFullAllowedToUsedDiv.addClass("onedrivefull-allow-to-use-hide");
-    onedriveFullNotShowUpHintSetting.settingEl.removeClass(
-      "onedrivefull-allow-to-use-hide"
-    );
-  }
 
   const onedriveFullSelectAuthDiv = onedriveFullAllowedToUsedDiv.createDiv();
   const onedriveFullAuthDiv = onedriveFullSelectAuthDiv.createDiv({
@@ -331,7 +299,5 @@ export const generateOnedriveFullSettingsPart = (
 
   return {
     onedriveFullDiv: onedriveFullDiv,
-    onedriveFullAllowedToUsedDiv: onedriveFullAllowedToUsedDiv,
-    onedriveFullNotShowUpHintSetting: onedriveFullNotShowUpHintSetting,
   };
 };

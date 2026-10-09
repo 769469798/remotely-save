@@ -16,19 +16,12 @@ import {
   requireApiVersion,
   setIcon,
 } from "obsidian";
-import {
-  DEFAULT_PRO_CONFIG,
-  getAndSaveProEmail,
-  getAndSaveProFeatures,
-  sendAuthReq as sendAuthReqPro,
-  setConfigBySuccessfullAuthInplace as setConfigBySuccessfullAuthInplacePro,
-} from "../pro/src/account";
+import { DEFAULT_PRO_CONFIG } from "../pro/src/account";
 import {
   COMMAND_CALLBACK_BOX,
   COMMAND_CALLBACK_KOOFR,
   COMMAND_CALLBACK_ONEDRIVEFULL,
   COMMAND_CALLBACK_PCLOUD,
-  COMMAND_CALLBACK_PRO,
   COMMAND_CALLBACK_YANDEXDISK,
 } from "../pro/src/baseTypesPro";
 import { DEFAULT_AZUREBLOBSTORAGE_CONFIG } from "../pro/src/fsAzureBlobStorage";
@@ -137,7 +130,7 @@ const DEFAULT_SETTINGS: RemotelySavePluginSettings = {
   syncConfigDir: false,
   syncBookmarks: false,
   syncUnderscoreItems: false,
-  lang: "auto",
+  lang: "zh_cn",
   logToDB: false,
   skipSizeLargerThan: -1,
   ignorePaths: [],
@@ -400,7 +393,7 @@ export default class RemotelySavePlugin extends Plugin {
           getNotice(s, e.message, 10 * 1000);
         }
       } else {
-        getNotice(s, error?.message ?? "error while sync", 10 * 1000);
+        getNotice(s, error?.message ?? t("syncrun_failed"), 10 * 1000);
       }
     };
 
@@ -571,7 +564,7 @@ export default class RemotelySavePlugin extends Plugin {
       );
     } catch (err: any) {
       new Notice(
-        err?.message ?? "error of prepareDBAndVaultRandomID",
+        err?.message ?? "准备本地数据库或库（Vault）ID 时出错",
         10 * 1000
       );
       throw err;
@@ -866,77 +859,6 @@ export default class RemotelySavePlugin extends Plugin {
             })
           );
         }
-      }
-    );
-
-    this.registerObsidianProtocolHandler(
-      COMMAND_CALLBACK_PRO,
-      async (inputParams) => {
-        if (this.oauth2Info.helperModal !== undefined) {
-          const k = this.oauth2Info.helperModal.contentEl;
-          k.empty();
-
-          t("protocol_pro_connecting")
-            .split("\n")
-            .forEach((val) => {
-              k.createEl("p", {
-                text: val,
-              });
-            });
-        }
-
-        console.debug(inputParams);
-        const authRes = await sendAuthReqPro(
-          this.oauth2Info.verifier || "verifier",
-          inputParams.code,
-          async (e: any) => {
-            new Notice(t("protocol_pro_connect_fail"));
-            new Notice(`${e}`);
-            throw e;
-          }
-        );
-        console.debug(authRes);
-
-        const self = this;
-        await setConfigBySuccessfullAuthInplacePro(
-          this.settings.pro!,
-          authRes,
-          () => self.saveSettings()
-        );
-
-        await getAndSaveProFeatures(
-          this.settings.pro!,
-          this.manifest.version,
-          () => self.saveSettings()
-        );
-
-        await getAndSaveProEmail(
-          this.settings.pro!,
-          this.manifest.version,
-          () => self.saveSettings()
-        );
-
-        this.oauth2Info.verifier = ""; // reset it
-        this.oauth2Info.helperModal?.close(); // close it
-        this.oauth2Info.helperModal = undefined;
-
-        this.oauth2Info.authDiv?.toggleClass(
-          "pro-auth-button-hide",
-          this.settings.pro?.refreshToken !== ""
-        );
-        this.oauth2Info.authDiv = undefined;
-
-        this.oauth2Info.revokeAuthSetting?.setDesc(
-          t("protocol_pro_connect_succ_revoke", {
-            email: this.settings.pro?.email,
-          })
-        );
-        this.oauth2Info.revokeAuthSetting = undefined;
-        this.oauth2Info.revokeDiv?.toggleClass(
-          "pro-revoke-auth-button-hide",
-          this.settings.pro?.email === ""
-        );
-        this.oauth2Info.revokeDiv = undefined;
       }
     );
 

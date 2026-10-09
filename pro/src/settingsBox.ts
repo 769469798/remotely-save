@@ -228,35 +228,7 @@ export const generateBoxSettingsPart = (
     }),
   });
 
-  boxLongDescDiv.createDiv({
-    text: stringToFragment(t("settings_box_pro_desc")),
-    cls: "box-disclaimer",
-  });
-
-  const boxNotShowUpHintSetting = new Setting(boxDiv)
-    .setName(t("settings_box_notshowuphint"))
-    .setDesc(t("settings_box_notshowuphint_desc"))
-    .addButton(async (button) => {
-      button.setButtonText(t("settings_box_notshowuphint_view_pro"));
-      button.onClick(async () => {
-        window.location.href = "#settings-pro";
-      });
-    });
-
   const boxAllowedToUsedDiv = boxDiv.createDiv();
-  // if pro enabled, show up; otherwise hide.
-  const allowBox =
-    plugin.settings.pro?.enabledProFeatures.filter(
-      (x) => x.featureName === "feature-box"
-    ).length === 1;
-  console.debug(`allow to show up box settings? ${allowBox}`);
-  if (allowBox) {
-    boxAllowedToUsedDiv.removeClass("box-allow-to-use-hide");
-    boxNotShowUpHintSetting.settingEl.addClass("box-allow-to-use-hide");
-  } else {
-    boxAllowedToUsedDiv.addClass("box-allow-to-use-hide");
-    boxNotShowUpHintSetting.settingEl.removeClass("box-allow-to-use-hide");
-  }
 
   const boxSelectAuthDiv = boxAllowedToUsedDiv.createDiv();
   const boxAuthDiv = boxSelectAuthDiv.createDiv({
@@ -361,7 +333,5 @@ export const generateBoxSettingsPart = (
 
   return {
     boxDiv: boxDiv,
-    boxAllowedToUsedDiv: boxAllowedToUsedDiv,
-    boxNotShowUpHintSetting: boxNotShowUpHintSetting,
   };
 };

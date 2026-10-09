@@ -169,37 +169,7 @@ export const generatePCloudSettingsPart = (
     }),
   });
 
-  pcloudLongDescDiv.createDiv({
-    text: stringToFragment(t("settings_pcloud_pro_desc")),
-    cls: "pcloud-disclaimer",
-  });
-
-  const pCloudNotShowUpHintSetting = new Setting(pCloudDiv)
-    .setName(t("settings_pcloud_notshowuphint"))
-    .setDesc(t("settings_pcloud_notshowuphint_desc"))
-    .addButton(async (button) => {
-      button.setButtonText(t("settings_pcloud_notshowuphint_view_pro"));
-      button.onClick(async () => {
-        window.location.href = "#settings-pro";
-      });
-    });
-
   const pCloudAllowedToUsedDiv = pCloudDiv.createDiv();
-  // if pro enabled, show up; otherwise hide.
-  const allowPCloud =
-    plugin.settings.pro?.enabledProFeatures.filter(
-      (x) => x.featureName === "feature-pcloud"
-    ).length === 1;
-  console.debug(`allow to show up pcloud settings? ${allowPCloud}`);
-  if (allowPCloud) {
-    pCloudAllowedToUsedDiv.removeClass("pcloud-allow-to-use-hide");
-    pCloudNotShowUpHintSetting.settingEl.addClass("pcloud-allow-to-use-hide");
-  } else {
-    pCloudAllowedToUsedDiv.addClass("pcloud-allow-to-use-hide");
-    pCloudNotShowUpHintSetting.settingEl.removeClass(
-      "pcloud-allow-to-use-hide"
-    );
-  }
 
   const pcloudSelectAuthDiv = pCloudAllowedToUsedDiv.createDiv();
   const pcloudAuthDiv = pcloudSelectAuthDiv.createDiv({
@@ -305,7 +275,5 @@ export const generatePCloudSettingsPart = (
 
   return {
     pCloudDiv: pCloudDiv,
-    pCloudAllowedToUsedDiv: pCloudAllowedToUsedDiv,
-    pCloudNotShowUpHintSetting: pCloudNotShowUpHintSetting,
   };
 };
