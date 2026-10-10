@@ -41,7 +41,9 @@ Hex hashes compare case-insensitively. An empty hash is ignored.
 
 ## See also
 
-The same rules, including which service uses which hash and the WebDAV SHA-1 download, are written up next to the WebDAV direction and conflict rules:
+Fork summary (install and high-level differences):
 
 - [README.md（简体中文）](../../README.md#upstream-diff)
 - [README.en.md](../../README.en.md#upstream-diff)
+
+Branch tables and WebDAV direction/conflict rules: [v3 design](./v3/design.md).
