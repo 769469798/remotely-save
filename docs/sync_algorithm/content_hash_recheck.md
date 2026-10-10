@@ -38,3 +38,10 @@ Hex hashes compare case-insensitively. An empty hash is ignored.
 ## Encryption
 
 `FakeFsEncrypt` clears `hash` on purpose: a provider hash is of ciphertext, not of the note in the vault. While `password` is non-empty the recheck does nothing. It does not hash plaintext, does not hash ciphertext, and does not store a made-up hash on the previous-sync record. Files continue to compare by mtime and encrypted size only. Turning encryption off later cannot trip over a hash this feature invented, because it never wrote one.
+
+## See also
+
+The same rules, including which service uses which hash and the WebDAV SHA-1 download, are written up next to the WebDAV direction and conflict rules:
+
+- [README.md（简体中文）](../../README.md#upstream-diff)
+- [README.en.md](../../README.en.md#upstream-diff)
